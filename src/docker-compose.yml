@@ -1,11 +1,31 @@
 version: '3.4'
 
+volumes:
+  mongo_data:
+
 services:
   catalog.api:
-    image: ${DOCKER_REGISTRY-}catalogapi
+    container_name: catalog.api
+    depends_on: 
+    - catalogdb
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
-  mongo:
-  image:
+    environment:
+      - MONGO_HOST=catalogdb
+      - MONGO_PORT=27017
+      - MONGO_DATABASE=ProductDb
+      - MONGO_COLLECTION=Products 
+    ports:
+      - "8765:80"
+      - "8766:443"
+  
+  catalogdb:
+    container_name: catalogdb
+    restart: always
+    image: mongo
+    ports:
+    - "27017:27017"
+    volumes:
+    - mongo_data:/data/db
     
