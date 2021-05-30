@@ -12,6 +12,10 @@ namespace Catalog.API.Data
             var db = client.GetDatabase(databaseName);
 
             Products = db.GetCollection<Product>(collectionName);
+            if (Products.CountDocuments(p => true) == 0)
+            {
+                CatalogContextSeed.Seed(Products);
+            }
         }
 
         public IMongoCollection<Product> Products { get; }
