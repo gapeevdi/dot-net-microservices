@@ -19,14 +19,11 @@ namespace Basket.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddStackExchangeRedisCache((options) =>
-            {
-                options.Configuration = 
-            });
+            ConfigureRedis(services);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Basket.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Basket.API", Version = "v1"});
             });
         }
 
@@ -44,9 +41,17 @@ namespace Basket.API
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        }
+
+        private void ConfigureRedis(IServiceCollection collection)
+        {
+            var redisHost = Configuration[Constants.Redis.Environment.Host] ?? Constants.Redis.DefaultHost;
+            var redisPort = Configuration[Constants.Redis.Environment.Port] ?? Constants.Redis.DefaultPort.ToString();
+
+            collection.AddStackExchangeRedisCache(redisOptions =>
             {
-                endpoints.MapControllers();
+                redisOptions.Configuration = $"{redisHost}:{redisPort}";
             });
         }
     }

@@ -24,7 +24,9 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:6000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "REDIS_HOST": "localhost",
+        "REDIS_PORT" : "6379"
       }
     }
   }

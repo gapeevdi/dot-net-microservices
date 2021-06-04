@@ -13,7 +13,7 @@ namespace Basket.API
             }
 
             public const string DefaultHost = "localhost";
-            public const int DefaultPort = 27017;
+            public const int DefaultPort = 6379;
         }
     }
 }
