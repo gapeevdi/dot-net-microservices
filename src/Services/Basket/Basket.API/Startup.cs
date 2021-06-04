@@ -1,3 +1,4 @@
+using Basket.API.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -38,7 +39,6 @@ namespace Basket.API
             }
 
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
@@ -53,6 +53,8 @@ namespace Basket.API
             {
                 redisOptions.Configuration = $"{redisHost}:{redisPort}";
             });
+
+            collection.AddScoped<IBasketRepository, BasketRepository>();
         }
     }
 }
