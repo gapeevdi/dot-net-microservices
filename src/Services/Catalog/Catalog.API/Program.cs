@@ -13,12 +13,10 @@ namespace Catalog.API
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                .ConfigureAppConfiguration((host, configurationBuilder) =>
                 {
-                    webBuilder.UseStartup<Startup>();
-                }).ConfigureAppConfiguration((host, configurationBuilder) =>
-                    {
-                        configurationBuilder.AddEnvironmentVariables();
-                    });
+                    configurationBuilder.AddEnvironmentVariables();
+                });
     }
 }

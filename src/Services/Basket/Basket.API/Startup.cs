@@ -20,12 +20,19 @@ namespace Basket.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureRedis(services);
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+
+            services.AddSwaggerGen(swaggerOptions =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Basket.API", Version = "v1"});
+                swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Catalog.API",
+                    Version = "v1"
+                });
             });
+
+            ConfigureRedis(services);
+            services.AddScoped<IBasketRepository, BasketRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,8 +60,6 @@ namespace Basket.API
             {
                 redisOptions.Configuration = $"{redisHost}:{redisPort}";
             });
-
-            collection.AddScoped<IBasketRepository, BasketRepository>();
         }
     }
 }
