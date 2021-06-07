@@ -2,6 +2,7 @@ version: '3.4'
 
 volumes:
   mongo_data:
+  portainer_data:
 
 services:
   catalog.api:
@@ -36,6 +37,17 @@ services:
     ports:
       - "6379:6379"
 
+  portainer:
+    container_name: portainer
+    restart: always
+    image: portainer/portainer-ce
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
   basket.api:
     container_name: basket.api
     build:
@@ -45,4 +57,5 @@ services:
       - REDIS_HOST=basketdb
       - REDIS_PORT=6379
     ports:
-    - "7000:7000"
+    - "7000:80"
+  
