@@ -5,7 +5,7 @@ using Npgsql;
 
 namespace Discount.API.Repositories
 {
-    public class DiscountRepository : 
+    public class DiscountRepository : IDiscountRepository
     {
         private const string SelectSqlScript = "SELECT Id, ProductName, Description, Amount FROM Coupon WHERE ProductName = ProductName";
 

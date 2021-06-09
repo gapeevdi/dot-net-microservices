@@ -1,15 +1,10 @@
+using Discount.API.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Discount.API
 {
@@ -25,7 +20,7 @@ namespace Discount.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            RegisterPostgres(services);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -51,6 +46,19 @@ namespace Discount.API
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void RegisterPostgres(IServiceCollection services)
+        {
+            var server = Configuration[Constants.Postgres.Environment.Host] ?? Constants.Postgres.DefaultHost;
+            var port = Configuration[Constants.Postgres.Environment.Port] ?? Constants.Postgres.DefaultPort.ToString();
+            var database = Configuration[Constants.Postgres.Environment.Database];
+            var user = Configuration[Constants.Postgres.Environment.User];
+            var password = Configuration[Constants.Postgres.Environment.Password];
+
+            services.AddScoped<IDiscountRepository>(_ =>
+                new DiscountRepository(
+                    $"Server={server}; Port={port}; Database={database}; User ID={user}; Password={password}"));
         }
     }
 }
