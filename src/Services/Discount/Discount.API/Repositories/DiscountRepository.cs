@@ -7,7 +7,7 @@ namespace Discount.API.Repositories
 {
     public class DiscountRepository : IDiscountRepository
     {
-        private const string SelectSqlScript = "SELECT Id, ProductName, Description, Amount FROM Coupon WHERE ProductName = ProductName";
+        private const string SelectSqlScript = "SELECT Id, ProductName, Description, Amount FROM Coupon WHERE @ProductName = ProductName";
 
         private const string InsertSqlScript =
             "INSERT INTO Coupon (ProductName, Description, Amount) VALUES (@ProductName, @Description, @Amount)";
@@ -34,15 +34,10 @@ namespace Discount.API.Repositories
                     new {ProductName = productName});
 
 
-            if (coupon == null)
+            return coupon ?? new Coupon
             {
-                return new Coupon
-                {
-                    ProductName = "No Discount", Amount = 0, Description = "No Description"
-                };
-            }
-
-            return coupon;
+                ProductName = "No Discount", Amount = 0, Description = "No Description"
+            };
         }
 
         public async Task Create(Coupon coupon)
