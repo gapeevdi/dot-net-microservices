@@ -24,7 +24,12 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:9000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "POSTGRES_HOST": "localhost",
+        "POSTGRES_PORT": "5432",
+        "POSTGRES_DATABASE": "DiscountDb",
+        "POSTGRES_USER": "admin",
+        "POSTGRES_PASSWORD": "admin1234"
       }
     }
   }

@@ -3,6 +3,8 @@ version: '3.4'
 volumes:
   mongo_data:
   portainer_data:
+  postgres_data:
+  pgadmin_data:
 
 services:
   catalog.api:
@@ -30,6 +32,32 @@ services:
     volumes:
     - mongo_data:/data/db
     
+  discountdb:
+    image: postgres
+    container_name: discountdb
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_DB=DiscountDb
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@aspnetrun.com
+      - PGADMIN_DEFAULT_PASSWORD=admin1234
+    volumes:
+      - pgadmin_data:/root/.pgadmin
+    ports:
+      - "5050:80"
+
+  
   basketdb:
     container_name: redis
     restart: always
