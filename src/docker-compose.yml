@@ -86,4 +86,19 @@ services:
       - REDIS_PORT=6379
     ports:
     - "7000:80"
-  
+
+  discount.api:
+    container_name: discount.api
+    build:
+      context: .
+      dockerfile: Services/Basket/Discount.API/Dockerfile
+    environment:
+      - POSTGRES_HOST=discountdb
+      - POSTGRES_PORT=5432
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_USER=admin
+      - POSTGRES_DATABASE=DiscountDb
+    depends_on:
+      - discountdb
+    ports:
+      - "9876:80"  
