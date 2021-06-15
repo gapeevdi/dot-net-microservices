@@ -91,7 +91,7 @@ services:
     container_name: discount.api
     build:
       context: .
-      dockerfile: Services/Basket/Discount.API/Dockerfile
+      dockerfile: Services/Discount/Discount.API/Dockerfile
     environment:
       - POSTGRES_HOST=discountdb
       - POSTGRES_PORT=5432
@@ -101,4 +101,4 @@ services:
     depends_on:
       - discountdb
     ports:
-      - "9876:80"  
+      - "49155:80"  

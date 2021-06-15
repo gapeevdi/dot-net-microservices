@@ -6,7 +6,15 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    ports:
+       - "80"
   basket.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+  discount.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
