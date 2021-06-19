@@ -3,7 +3,12 @@
     "Discount.Grpc": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "POSTGRES_HOST": "localhost",
+        "POSTGRES_PORT": "5432",
+        "POSTGRES_PASSWORD": "admin1234",
+        "POSTGRES_USER": "admin",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "POSTGRES_DATABASE": "DiscountDb"
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "http://localhost:5003;"
