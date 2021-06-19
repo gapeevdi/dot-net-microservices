@@ -24,6 +24,7 @@ namespace Discount.Grpc
         public void ConfigureServices(IServiceCollection services)
         {
             RegisterPostgres(services);
+            services.AddAutoMapper(typeof(Startup));
             services.AddGrpc();
         }
 
