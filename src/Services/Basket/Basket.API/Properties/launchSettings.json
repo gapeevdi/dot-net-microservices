@@ -24,6 +24,7 @@
       "environmentVariables": {
         "REDIS_HOST": "localhost",
         "REDIS_PORT": "6379",
+        "DISCOUNT_GRPC_URL": "http://localhost:5003",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",

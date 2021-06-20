@@ -1,4 +1,7 @@
+using System;
+using Basket.API.Discount;
 using Basket.API.Repositories;
+using Discount.Grpc.Protos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +36,10 @@ namespace Basket.API
 
             ConfigureRedis(services);
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options=>options.Address = new Uri(Configuration["DISCOUNT_GRPC_URL"]));
+
+            services.AddSingleton<IDiscountClient, DiscountClient>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
