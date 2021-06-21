@@ -102,3 +102,19 @@ services:
       - discountdb
     ports:
       - "49155:80"  
+
+  discount.grpc:
+    container_name: discount.grpc
+    build:
+      context: .
+      dockerfile: Services/Discount/Discount.Grpc/Dockerfile
+    environment:
+      - POSTGRES_HOST=discountdb
+      - POSTGRES_PORT=5432
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_USER=admin
+      - POSTGRES_DATABASE=DiscountDb
+    depends_on:
+      - discountdb
+    ports:
+      - "49160:80"
