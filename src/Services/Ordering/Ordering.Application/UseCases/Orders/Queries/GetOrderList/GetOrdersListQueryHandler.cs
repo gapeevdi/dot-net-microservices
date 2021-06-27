@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Ordering.Application.Contracts.Persistance;
-using Ordering.Domain.Entities;
 
 namespace Ordering.Application.UseCases.Orders.Queries.GetOrderList
 {
