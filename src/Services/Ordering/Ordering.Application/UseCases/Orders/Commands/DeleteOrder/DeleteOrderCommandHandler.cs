@@ -4,39 +4,40 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Ordering.Application.Contracts.Infrastructure;
 using Ordering.Application.Contracts.Persistance;
 using Ordering.Application.Exceptions;
+using Ordering.Application.UseCases.Orders.Commands.CheckoutOrder;
 using Ordering.Domain.Entities;
 
-namespace Ordering.Application.UseCases.Orders.Commands.UpdateOrder
+namespace Ordering.Application.UseCases.Orders.Commands.DeleteOrder
 {
-    public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand>
+    public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand>
     {
+
         private readonly IOrderedRepository _repository;
         private readonly IMapper _mapper;
-        private readonly ILogger<UpdateOrderCommandHandler> _logger;
+        private readonly ILogger<CheckoutOrderCommandHandler> _logger;
 
-        public UpdateOrderCommandHandler(IOrderedRepository repository, IMapper mapper, ILogger<UpdateOrderCommandHandler> logger)
+        public DeleteOrderCommandHandler(IOrderedRepository repository, IMapper mapper, IEmailService emailService, ILogger<CheckoutOrderCommandHandler> logger)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<Unit> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            var orderToUpdate = await _repository.GetById(request.Id);
-            if (orderToUpdate == null)
+            var orderToDelete = await _repository.GetById(request.Id);
+
+            if (orderToDelete == null)
             {
                 _logger.LogError("Order does not exist");
                 throw new NotFoundException(nameof(Order), request.Id);
             }
 
-            _mapper.Map(request, orderToUpdate, typeof(UpdateOrderCommand), typeof(Order));
-
-            await _repository.Update(orderToUpdate);
-
-            _logger.LogInformation($"Order {orderToUpdate.Id} is successfully updated");
+            await _repository.Delete(orderToDelete);
+            _logger.LogInformation($"Order {orderToDelete.Id} is deleted successfully");
 
             return Unit.Value;
         }
