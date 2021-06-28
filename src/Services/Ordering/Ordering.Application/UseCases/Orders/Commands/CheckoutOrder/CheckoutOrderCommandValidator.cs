@@ -9,7 +9,7 @@ namespace Ordering.Application.UseCases.Orders.Commands.CheckoutOrder
             RuleFor(command => command.UserName)
                 .NotEmpty()
                 .WithMessage("'UserName' is required")
-                .Length(0, 50)
+                .MaximumLength(50)
                 .WithMessage("'UserName' must not exceed 50 characters")
                 .NotNull();
 
