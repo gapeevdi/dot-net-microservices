@@ -120,7 +120,7 @@ services:
       - "49160:80"
 
   orderdb:
-    image: mcr.microsoft.com/mssql/server
+    image: gapeevdi/orderdb:1
     container_name: orderdb
     environment:
       - SA_PASSWORD=admin1234
@@ -128,3 +128,16 @@ services:
     restart: always
     ports:
       - "1488:1433"
+
+  ordering.api:
+    container_name: ordering.api
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+    environment:
+      - "ConnectionStrings:OrderingConnectionString="
+    depends_on:
+      - orderdb
+    ports:
+      - "49555:80"  
+  
