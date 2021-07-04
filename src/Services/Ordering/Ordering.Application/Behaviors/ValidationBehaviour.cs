@@ -11,10 +11,10 @@ namespace Ordering.Application.Behaviors
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
 
-        private readonly IReadOnlyCollection<IValidator<TRequest>> _validators;
+        private readonly IEnumerable<IValidator<TRequest>> _validators;
 
 
-        public ValidationBehavior(IReadOnlyCollection<IValidator<TRequest>> validators)
+        public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
             _validators = validators ?? throw new ArgumentNullException(nameof(validators));
         }

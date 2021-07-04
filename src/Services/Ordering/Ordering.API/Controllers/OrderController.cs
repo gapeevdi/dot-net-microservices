@@ -22,7 +22,7 @@ namespace Ordering.API.Controllers
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        [HttpGet("{UserName}", Name = "GetOrder")]
+        [HttpGet("{userName}", Name = "GetOrder")]
         [ProducesResponseType(typeof(IEnumerable<OrderResponse>), (int) HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<OrderResponse>>> GetOrdersByUserName(string userName)
         {
@@ -32,7 +32,7 @@ namespace Ordering.API.Controllers
             return orders;
         }
 
-        [HttpGet(Name = "CheckoutOrder")]
+        [HttpPost(Name = "CheckoutOrder")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<ActionResult<int>> CheckoutOrder([FromBody] CheckoutOrderCommand command)
         {

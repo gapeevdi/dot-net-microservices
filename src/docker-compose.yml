@@ -135,7 +135,7 @@ services:
       context: .
       dockerfile: Services/Ordering/Ordering.API/Dockerfile
     environment:
-      - "ConnectionStrings:OrderingConnectionString="
+      - "ConnectionStrings__OrderingConnectionString=Server=orderdb,1433;Database=OrderDb;User Id=sa;Password=admin1234"
     depends_on:
       - orderdb
     ports:
