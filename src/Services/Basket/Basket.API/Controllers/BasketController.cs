@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using Basket.API.Discount;
 using Basket.API.Entities;
 using Basket.API.Repositories;
+using EventBus.Messages.Events;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.API.Controllers
@@ -14,11 +17,16 @@ namespace Basket.API.Controllers
     {
         private readonly IBasketRepository _repository;
         private readonly IDiscountClient _discountClient;
+        private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public BasketController(IBasketRepository basketRepository, IDiscountClient discountClient)
+        public BasketController(IBasketRepository basketRepository, IDiscountClient discountClient, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
             _repository = basketRepository ?? throw new ArgumentNullException(nameof(basketRepository));
             _discountClient = discountClient ?? throw new ArgumentNullException(nameof(discountClient));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+
         }
 
         [HttpGet("{userName}")]
@@ -50,5 +58,29 @@ namespace Basket.API.Controllers
             await _repository.Delete(userName);
             return Ok();
         }
+
+        
+        [Route("action")]
+        [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
+        {
+            var basket = await _repository.Get(basketCheckout.UserName);
+            if (basket == null)
+            {
+                return BadRequest();
+            }
+
+            var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+
+            eventMessage.TotalPrice = basket.TotalPrice;
+            await _publishEndpoint.Publish(eventMessage);
+
+            await _repository.Delete(basket.UserName);
+
+            return Accepted();
+        }
     }
 }
+ 

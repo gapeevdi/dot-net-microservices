@@ -39,8 +39,9 @@ namespace Basket.API
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options=>options.Address = new Uri(Configuration["DISCOUNT_GRPC_URL"]));
 
+            services.AddAutoMapper(typeof(Startup));
+
             ConfigureMassTransit(services);
-            services.AddMassTransitHostedService();
 
             services.AddSingleton<IDiscountClient, DiscountClient>();
 
@@ -82,6 +83,8 @@ namespace Basket.API
                     rabbitMqConfigurator.Host("EventBusSettings:HostAddress");
                 });
             });
+
+            services.AddMassTransitHostedService();
         }
     }
 }
