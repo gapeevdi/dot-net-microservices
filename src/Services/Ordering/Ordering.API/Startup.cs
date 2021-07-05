@@ -34,6 +34,9 @@ namespace Ordering.API
             services.AddApplicationServices();
             services.AddInfrastructureServices(Configuration);
             ConfigureMassTransit(services);
+
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<BasketCheckoutConsumer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
