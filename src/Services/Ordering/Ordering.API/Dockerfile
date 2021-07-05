@@ -10,6 +10,7 @@ COPY ["Services/Ordering/Ordering.API/Ordering.API.csproj", "Services/Ordering/O
 COPY ["Services/Ordering/Ordering.Application.DependencyInjection.Extensions/Ordering.Application.DependencyInjection.Extensions.csproj", "Services/Ordering/Ordering.Application.DependencyInjection.Extensions/"]
 COPY ["Services/Ordering/Ordering.Application/Ordering.Application.csproj", "Services/Ordering/Ordering.Application/"]
 COPY ["Services/Ordering/Ordering.Domain/Ordering.Domain.csproj", "Services/Ordering/Ordering.Domain/"]
+COPY ["Common/EventBus.Messages/EventBus.Messages.csproj", "Common/EventBus.Messages/"]
 COPY ["Services/Ordering/Ordering.Infrastructure/Ordering.Infrastructure.csproj", "Services/Ordering/Ordering.Infrastructure/"]
 RUN dotnet restore "Services/Ordering/Ordering.API/Ordering.API.csproj"
 COPY . .
