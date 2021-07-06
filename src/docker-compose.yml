@@ -84,8 +84,12 @@ services:
     environment:
       - REDIS_HOST=basketdb
       - REDIS_PORT=6379
+      - "EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672"
     ports:
     - "7000:80"
+    depends_on:
+     - basketdb
+     - rabbitmq
 
   discount.api:
     container_name: discount.api
@@ -136,8 +140,10 @@ services:
       dockerfile: Services/Ordering/Ordering.API/Dockerfile
     environment:
       - "ConnectionStrings__OrderingConnectionString=Server=orderdb,1433;Database=OrderDb;User Id=sa;Password=admin1234"
+      - "EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - orderdb
+      - rabbitmq
     ports:
       - "49555:80"  
   
