@@ -33,3 +33,8 @@ services:
     ports:
       - "80"
 
+
+  apigateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
