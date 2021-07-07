@@ -60,7 +60,7 @@ namespace Basket.API.Controllers
         }
 
         
-        [Route("action")]
+        [Route("checkout")]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Accepted)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
