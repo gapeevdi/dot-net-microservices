@@ -18,6 +18,7 @@ namespace ApiGateway
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // Async void added deliberately here. Don't you worry
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             await app.UseOcelot();
